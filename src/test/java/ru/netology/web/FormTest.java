@@ -14,15 +14,15 @@
     import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-    class FormTest {
-        private Webdriver driver;
+    public class FormTest {
+        private WebDriver driver;
 
         @BeforeAll
         public static void setUpAll() {
-            WebDriverManager.chromeDriver().setup();
-
+            WebDriverManager.chromedriver().setup();
+        }
             @BeforeEach
-            public void setUp(){
+            public void setUp() {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("--no-sandbox");
@@ -35,18 +35,18 @@
                 driver.quit();
                 driver = null;
             }
-        }
-    public class FormTest {
-        @Test
-        void completedBlank() {
-            open("http://localhost:9999/");
-            $("[data-test-id=name] input").setValue("Антон Сидоров");
-            $("[data-test-id=phone] input").setValue("+79781214364");
-            $("[data-test-id=agreement]").click();
-            $("button[type=button]").click();
-            $("[data-test-id=order-success]").shouldHave(exactText("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
-        }
 
+
+        @Test
+        void OrderFormTest() {
+            driver.get("http://localhost:9999");
+            driver.findElement(By.cssSelector("span[data-test-id='name'] input")).sendKeys("Иван Иванов");
+            driver.findElement(By.cssSelector("span[data-test-id='phone'] input")).sendKeys("+79996666666");
+            driver.findElement(By.className("checkbox__box")).click();
+            driver.findElement(By.className("button_view_extra")).click();
+            String text = driver.findElement(By.className("Success_successBlock__2L3Cw")).getText();
+
+            assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.",text.trim());
+        }
     }
 
-}
