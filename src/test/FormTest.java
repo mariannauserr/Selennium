@@ -8,6 +8,27 @@ import static com.codeborne.selenide.Selenide.open;
 
 
 public class FormTest {
+    private Webdriver driver;
+
+    @BeforeAll
+    public static void setUpAll() {
+        WebDriverManager.chromeDriver().setup();
+
+        @BeforeEach
+                public void setUp(){
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--headless");
+            driver = new ChromeDriver(options);
+            driver.get("http://localhost:9999");
+        }
+    @AfterEach
+            public void tearDown() {
+            driver.quit();
+            driver = null;
+        }
+    }
     @Test
     void completedBlank() {
         open("http://localhost:9999/");
